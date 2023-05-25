@@ -44,9 +44,9 @@ class SuperJobParser(BaseApiParser):
         :rtype: dict
         """
         load_dotenv()
-        api_token: str = os.environ.get("SJ_API_KEY")
+        __api_token: str = os.environ.get("SJ_API_KEY")
         headers = {
-            "X-Api-App-Id": f"{api_token}",
+            "X-Api-App-Id": f"{__api_token}",
             "Content-Type": "application/x-www-form-urlencoded"
         }
         params = {
@@ -89,9 +89,9 @@ class SuperJobParser(BaseApiParser):
         :rtype: dict
         """
         load_dotenv()
-        api_token: str = os.environ.get("SJ_API_KEY")
+        __api_token: str = os.environ.get("SJ_API_KEY")
         headers = {
-            "X-Api-App-Id": f"{api_token}",
+            "X-Api-App-Id": f"{__api_token}",
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
@@ -108,9 +108,9 @@ class SuperJobParser(BaseApiParser):
         :rtype: dict
         """
         load_dotenv()
-        api_token: str = os.environ.get("SJ_API_KEY")
+        __api_token: str = os.environ.get("SJ_API_KEY")
         headers = {
-            "X-Api-App-Id": f"{api_token}",
+            "X-Api-App-Id": f"{__api_token}",
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
