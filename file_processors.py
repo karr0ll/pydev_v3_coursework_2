@@ -10,6 +10,7 @@ class HeadHunterFileProcessor(FileInterfaceBaseClass):
     """
     Класс для работы с файлами вакансий, полученных через API
     """
+
     def __init__(self):
         self.search_keyword = None
         self.experience = None
@@ -75,7 +76,10 @@ class HeadHunterFileProcessor(FileInterfaceBaseClass):
         """
         data: list[dict] = self.load_vacancies_from_file()
 
-        with open(f"vacancies_headhunter.json", "w+", encoding="UTF-8") as file:
+        with open("vacancies_headhunter.json", "w+",
+                  encoding="UTF-8"
+                  ) as file:
+
             for item in data:
                 if item["id"] == str(vacancy_id):
                     item_index = data.index(item)
@@ -87,11 +91,13 @@ class HeadHunterFileProcessor(FileInterfaceBaseClass):
                     break
             json.dump(data, file, indent=2, ensure_ascii=False)
 
+
 #
 class SuperJobFileProcessor(FileInterfaceBaseClass):
     """
     Класс для работы с файлами вакансий, полученных через API
     """
+
     def __init__(self, ):
         self.search_keyword = None
         self.experience = None
@@ -129,7 +135,7 @@ class SuperJobFileProcessor(FileInterfaceBaseClass):
         :return: None
         :rtype: None
         """
-        with open(f"vacancies_superjob.json", "w", encoding="UTF-8") as file:
+        with open("vacancies_superjob.json", "w", encoding="UTF-8") as file:
             data = SuperJobParser().get_vacancies_data(
                 search_keyword=search_keyword,
                 experience=experience,
@@ -145,7 +151,7 @@ class SuperJobFileProcessor(FileInterfaceBaseClass):
         :return: словарь с данными вакансий
         :rtype: dict
         """
-        with open(f"vacancies_superjob.json", "r", encoding="UTF-8") as file:
+        with open("vacancies_superjob.json", "r", encoding="UTF-8") as file:
             open_file = json.load(file)
             return open_file
 
@@ -159,7 +165,7 @@ class SuperJobFileProcessor(FileInterfaceBaseClass):
         """
         data = self.load_vacancies_from_file()
 
-        with open(f"vacancies_superjob.json", "w", encoding="UTF-8") as file:
+        with open("vacancies_superjob.json", "w", encoding="UTF-8") as file:
             for item in data["objects"]:
                 try:
                     if item["id"] == int(vacancy_id):
