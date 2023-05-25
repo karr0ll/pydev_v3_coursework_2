@@ -1,5 +1,3 @@
-import json
-
 import requests
 
 from base_classes.parser_base_class import BaseApiParser
@@ -22,11 +20,13 @@ class HeadHunterParser(BaseApiParser):
         Получает отфильтрованные данные по вакансии по API HeadHunter
         :param search_keyword: ключевое слово для поиска в полях вакансий
         :type search_keyword: str
-        :param experience: опциональный параметр, означает требуемый опыт,
-        указывается id из справочника, получаемый методом get_additional_dicts()
+        :param experience: опциональный параметр,
+        означает требуемый опыт, указывается id из справочника,
+        получаемый методом get_additional_dicts()
         :type experience: str
-        :param schedule: опциональный параметр, означает график работы,
-        указывается id из справочника, получаемый методом get_additional_dicts()
+        :param schedule: опциональный параметр,
+        означает график работы,указывается id из справочника,
+        получаемый методом get_additional_dicts()
         :type schedule: str
         :param area: опциональный параметр, означает регион,
         указывается id из справочника, получаемый методом get_area_dicts()
@@ -59,7 +59,9 @@ class HeadHunterParser(BaseApiParser):
 
             # обновление номера страницы в запросе к API
             params["page"] = page
-            response = requests.get("https://api.hh.ru/vacancies", params=params)
+            response = requests.get("https://api.hh.ru/vacancies",
+                                    params=params
+                                    )
             vacancies_description.extend(response.json()["items"])
         return vacancies_description
 
