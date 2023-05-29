@@ -1,4 +1,4 @@
-from fileprocessors.headhunter_file_processors import HeadHunterFileProcessor
+from file_processors.headhunter_file_processors import HeadHunterFileProcessor
 
 
 class HeadHunterVacancy:

@@ -1,4 +1,4 @@
-from fileprocessors.superjob_file_processor import SuperJobFileProcessor
+from file_processors.superjob_file_processor import SuperJobFileProcessor
 from vacancies.headhunter_vacancy import HeadHunterVacancy
 
 
