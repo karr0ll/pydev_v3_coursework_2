@@ -7,11 +7,13 @@ class FileInterfaceBaseClass(ABC):
     """
 
     @abstractmethod
-    def save_vacancies_to_file(self):
+    def save_vacancies_to_file(self, **kwargs):
         """
         Абстрактный метод сохранения информации в файл
-        Returns: None
-
+        :param kwargs: именованные аргументы для параметризации запроса к API
+        :type kwargs: int, str, array
+        :return: None
+        :rtype: None
         """
         pass
 
@@ -19,8 +21,8 @@ class FileInterfaceBaseClass(ABC):
     def load_vacancies_from_file(self):
         """
         Абстрактный метод загрузки информации из файла
-        Returns: None
-
+        :return: None
+        :rtype: None
         """
         pass
 
@@ -28,8 +30,9 @@ class FileInterfaceBaseClass(ABC):
     def delete_vacancy_from_file(self, vacancy_id):
         """
         Абстрактный метод удаления информации из файла по id вакансии
-        Params: id вакансии
-        Returns: None
-
+        :param vacancy_id: id вакансии для удаления из файла
+        :type vacancy_id: int, str
+        :return: None
+        :rtype: None
         """
         pass
