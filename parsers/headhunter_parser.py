@@ -8,60 +8,39 @@ class HeadHunterParser(BaseApiParser):
     Класс получения данных по API HeadHunter
     """
 
-    def get_vacancies_data(
-                           self,
-                           search_keyword,
-                           experience=None,
-                           schedule=None,
-                           area=None,
-                           salary=None
-                           ) -> list[dict]:
+    def get_vacancies_data(self, **kwargs) -> list[dict]:
         """
-        Получает отфильтрованные данные по вакансии по API HeadHunter
-        :param search_keyword: ключевое слово для поиска в полях вакансий
-        :type search_keyword: str
-        :param experience: опциональный параметр,
-        означает требуемый опыт, указывается id из справочника,
-        получаемый методом get_additional_dicts()
-        :type experience: str
-        :param schedule: опциональный параметр,
-        означает график работы,указывается id из справочника,
-        получаемый методом get_additional_dicts()
-        :type schedule: str
-        :param area: опциональный параметр, означает регион,
-        указывается id из справочника, получаемый методом get_area_dicts()
-        :type area: str
-        :param salary: опциональный параметр, означает размер зарплаты
-        :type salary: int
-        :return: список словарей с данными по найденным вакансиям
-        :rtype: list[dict]
+        Получает отфильтрованные данные по вакансии по API
+        :param kwargs: опциональные параметры запроса к API
+        :type kwargs: int, str, array
+        :return: Словарь с данными вакансий
+        :rtype: dict
         """
-
         params = {
-            "per_page": 100,
-            "page": 0,
-            "period": 30,
-            "text": search_keyword,
-            "experience": experience,
-            "schedule": schedule,
-            "area": area,
-            "salary": salary
+            "per_page": 100,  # указание количества вакансий на страницу
+            "page": 0,  # запрос начинается с нулевой страницы
+            "period": 30,  # период размещения вакансий от текущей даты
+            "only_with_salary": True,  #  возвращать вакансии только с зарплатой
+            "area": 113,  #  страна поиска Россия
+            "search_field": "name"  #  в какой обаласти вакансии искать ключевое слово
         }
+
+        #  распаковка аргументов и подставновка в параметры запроса
+        for key, value in kwargs.items():
+            params[f"{key}"] = value
+
         response = requests.get("https://api.hh.ru/vacancies", params=params)
         if not response.status_code == 200:
-            print(response.text)
+            print(response.status_code, response.text)
         vacancies_description = response.json()["items"]
 
         # получение количества страниц из ответа
         pages = response.json()["pages"]
 
+        # обновление номера страницы в запросе к API
         for page in range(1, pages):
-
-            # обновление номера страницы в запросе к API
             params["page"] = page
-            response = requests.get("https://api.hh.ru/vacancies",
-                                    params=params
-                                    )
+            response = requests.get("https://api.hh.ru/vacancies", params=params)
             vacancies_description.extend(response.json()["items"])
         return vacancies_description
 
@@ -74,7 +53,7 @@ class HeadHunterParser(BaseApiParser):
         response = requests.get("https://api.hh.ru/dictionaries")
         if not response.status_code == 200:
             print(response.text)
-        additional_dicts = response.json()
+        additional_dicts: dict = response.json()
         return additional_dicts
 
     def get_area_dicts(self) -> dict:
@@ -86,5 +65,5 @@ class HeadHunterParser(BaseApiParser):
         response = requests.get("https://api.hh.ru/areas")
         if not response.status_code == 200:
             print(response.text)
-        area_dicts = response.json()
+        area_dicts: dict = response.json()
         return area_dicts
