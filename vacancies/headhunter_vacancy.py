@@ -83,7 +83,7 @@ class HeadHunterVacancy:
                f"Тип занятости: {self.employment}\nСсылка на вакансию: {self.url}\n"
 
     def __ge__(self, other):
-        self.salary_from > other.salary_from
+        return self.salary_from > other.salary_from
 
     def __get_vacancy_data(self) -> list[dict]:
         """
