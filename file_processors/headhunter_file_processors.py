@@ -14,7 +14,7 @@ class HeadHunterFileProcessor(FileInterfaceBaseClass):
         """
         Сохраняет полученный от API список словарей с данными вакансий в json-файл
         :param kwargs: опциональные параметры запроса к API: text, salary, area, experience
-        :type kwargs: keyword: str, payment_from: int, area: int, experience: str
+        :type kwargs: text: str, salary: int, area: str, experience: str
         :return:  None
         :rtype: None
         """
