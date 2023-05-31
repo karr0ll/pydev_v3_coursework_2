@@ -56,14 +56,14 @@ class HeadHunterParser(BaseApiParser):
         additional_dicts: dict = response.json()
         return additional_dicts
 
-    def get_area_dicts(self) -> dict:
+    def get_area_dicts(self) -> list[dict]:
         """
         Получает справочник городов для запроса к API
         :return: словарь с справочником городов для запросов к API
         :rtype: dict
         """
-        response = requests.get("https://api.hh.ru/areas")
+        response = requests.get("https://api.hh.ru/areas/113")
         if not response.status_code == 200:
             print(response.text)
-        area_dicts: dict = response.json()
+        area_dicts: list = response.json()
         return area_dicts
