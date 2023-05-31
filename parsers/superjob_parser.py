@@ -16,8 +16,8 @@ class SuperJobParser(BaseApiParser):
     def get_vacancies_data(self, **kwargs) -> dict:
         """
         Получает отфильтрованные данные по вакансии по API
-        :param kwargs: опциональные параметры запроса к API
-        :type kwargs: int, str, array
+        :param kwargs: опциональные параметры запроса к API: keyword, payment_from, town, experience
+        :type kwargs: keyword: str, payment_from: int, area: int, experience: str
         :return: Словарь с данными вакансий
         :rtype: dict
         """
@@ -96,4 +96,3 @@ class SuperJobParser(BaseApiParser):
                                 )
         towns_dict: dict = response.json()
         return towns_dict
-
