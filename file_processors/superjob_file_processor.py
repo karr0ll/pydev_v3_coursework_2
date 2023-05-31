@@ -19,7 +19,35 @@ class SuperJobFileProcessor(FileInterfaceBaseClass):
         """
         with open("vacancies_superjob.json", "w", encoding="UTF-8") as file:
             data: dict = SuperJobParser().get_vacancies_data(**kwargs)
-            json.dump(data, file, indent=2, ensure_ascii=False)
+            formatted_dicts_list = []
+            for item in data["objects"]:
+                formatted_dicts_list.append(
+                    {
+                        "service": "SuperJob",
+                        "id": item["id"],
+                        "name": item["profession"],
+                        "city": {
+                            "id": item["town"]["id"],
+                            "name": item["town"]["title"]
+                        },
+                        "salary_from": item["payment_from"],
+                        "salary_to": item["payment_to"],
+                        "url": item["link"],
+                        "employer": item["client"]["title"],
+                        "requirement": None,
+                        "responsibility": item["candidat"],
+                        "experience": {
+                            "id": item["experience"]["id"],
+                            "name": item["experience"]["title"]
+                        },
+                        "employment": {
+                            "id": item["type_of_work"]["id"],
+                            "name": item["type_of_work"]["title"]
+                        }
+                    }
+                )
+
+            json.dump(formatted_dicts_list, file, indent=2, ensure_ascii=False)
 
     def load_vacancies_from_file(self) -> dict:
         """
@@ -57,3 +85,5 @@ class SuperJobFileProcessor(FileInterfaceBaseClass):
                     print(e)
             json.dump(data, file, indent=2, ensure_ascii=False)
 
+
+SuperJobFileProcessor().save_vacancies_to_file(keyword="python", payment_from=200000, area=4)
