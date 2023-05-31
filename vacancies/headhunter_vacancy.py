@@ -25,9 +25,8 @@ class HeadHunterVacancy:
         else:
             self.text = text
 
-        if experience is not None:
-            if not isinstance(experience, str):
-                raise TypeError("Опыт работы для поиска долже быть строкой")
+        if not isinstance(experience, str):
+            raise TypeError("Опыт работы для поиска долже быть строкой")
         else:
             self.experience = experience
 
@@ -102,8 +101,3 @@ class HeadHunterVacancy:
 
 
 
-
-
-data = HeadHunterVacancy(text="python", salary=100_000, area="1")
-
-print(data.all)
