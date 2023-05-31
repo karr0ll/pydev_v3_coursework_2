@@ -42,16 +42,16 @@ class HeadHunterVacancy:
 
         vacancy_data = self.__get_vacancy_data()
         for item in vacancy_data:
-            self.employer_name: str = item["employer"]["name"]
-            self.area: str = item["area"]["name"]
+            self.employer_name: str = item["employer"]
+            self.area: str = item["city"]["name"]
             self.vacancy_name: str = item["name"]
-            self.salary_from: int = item["salary"]["from"]
-            self.salary_to: int = item["salary"]["to"]
-            self.requirement: str = item["snippet"]["requirement"]
+            self.salary_from: int = item["salary_from"]
+            self.salary_to: int = item["salary_to"]
+            self.requirement: str = item["requirement"]
             self.experience: str = item["experience"]["name"]
-            self.description: str = item["snippet"]["responsibility"]
+            self.description: str = item["responsibility"]
             self.employment: str = item["employment"]["name"]
-            self.url: str = item["alternate_url"]
+            self.url: str = item["url"]
 
             self.all.append(self)
 
