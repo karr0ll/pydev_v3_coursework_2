@@ -7,7 +7,7 @@ class HeadHunterVacancy:
     """
     all = []
 
-    def __init__(self, text=None, experience=None, area=None, salary=None) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Конструктор класса, инициализируется одним из переданных именованных аргументов,
         дополнительные атрибуты заполняются данными из файла вакансий
@@ -20,27 +20,7 @@ class HeadHunterVacancy:
         :param salary: зарплата
         :type salary: int
         """
-        if not isinstance(text, str):
-            raise TypeError("Ключевое слово для поиска должно быть строкой")
-        else:
-            self.text = text
-
-        if not isinstance(experience, str):
-            raise TypeError("Опыт работы для поиска долже быть строкой")
-        else:
-            self.experience = experience
-
-        if not isinstance(area, str):
-            raise TypeError("ID города для поиска долже быть строкой")
-        else:
-            self.area = area
-
-        if not isinstance(salary, int):
-            raise TypeError("Зарплата для поиска должны быть целым числом")
-        else:
-            self.salary = salary
-
-        vacancy_data = self.__get_vacancy_data()
+        vacancy_data = self.__get_vacancy_data(**kwargs)
         for item in vacancy_data:
             self.employer_name: str = item["employer"]
             self.area: str = item["city"]["name"]
@@ -84,20 +64,15 @@ class HeadHunterVacancy:
     def __ge__(self, other):
         return self.salary_from > other.salary_from
 
-    def __get_vacancy_data(self) -> list[dict]:
+    def __get_vacancy_data(self, **kwargs) -> list[dict]:
         """
         Метод получения данных из файла вакансий
         :return: данные из файла вакансий
         :rtype: list[dict]
         """
-        HeadHunterFileProcessor().save_vacancies_to_file(
-            text=self.text,
-            experience=self.experience,
-            area=self.area,
-            salary=self.salary
-        )
+        HeadHunterFileProcessor().save_vacancies_to_file(**kwargs)
         vacancy_data: list[dict] = HeadHunterFileProcessor().load_vacancies_from_file()
         return vacancy_data
 
-
+vacancies = HeadHunterVacancy(text="Python", salary=100000, area="1", experience="between1And3")
 
