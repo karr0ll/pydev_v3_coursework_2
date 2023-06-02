@@ -2,65 +2,77 @@ from file_processors.superjob_file_processor import SuperJobFileProcessor
 from vacancies.headhunter_vacancy import HeadHunterVacancy
 
 
-class SuperJobVacancy(HeadHunterVacancy):
+class SuperJobVacancy:
     """
     Класс вакансии SuperJob, инициализируется любым из именованных аргументов
     """
+    all = []
 
-    def __init__(self,
-                 keyword: str = None,
-                 experience: str = None,
-                 town: int = None,
-                 payment_from: int = None
-                 ) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """
         Конструктор класса, инициализируется одним из переданных именованных аргументов,
         дополнительные атрибуты заполняются данными из файла вакансий
-        :param keyword: ключевое слово для поиска вакансий
-        :type keyword: str
+        :param text: ключевое слово для поиска вакансий
+        :type text: str
         :param experience: требуемый опыт для поиска вакансий
         :type experience: str
-        :param town: город для поиска вакансий
-        :type town: int
-        :param payment_from: нижняя граница зарплаты
-        :type payment_from: int
+        :param area: город для поиска вакансий
+        :type area: str
+        :param salary: зарплата
+        :type salary: int
         """
-        super().__init__()
-        self.keyword = keyword
-        self.experience = experience
-        self.town = town
-        self.payment_from = payment_from
-
-        vacancy_data = self.__get_vacancy_data()
+        vacancy_data = self.__get_vacancy_data(**kwargs)
         for item in vacancy_data:
-            try:
-                self.employer_name: str = item["objects"]["client"]["title"]
-                self.vacancy_name: str = item["objects"]["profession"]
-                self.salary_from: int = item["objects"]["payment_from"]
-                self.salary_to: int = item["objects"]["payment_to"]
-                self.description: str = item["objects"]["candidat"]
-                self.employment: str = item["objects"]["type_of_work"]["title"]
-                self.url: str = item["objects"]["link"]
-                self.all.append(self)
+            self.employer_name: str = item["employer"]
+            self.area: str = item["city"]["name"]
+            self.vacancy_name: str = item["name"]
+            self.salary_from: int = item["salary_from"]
+            self.salary_to: int = item["salary_to"]
+            self.requirement: str = item["requirement"]
+            self.experience: str = item["experience"]["name"]
+            self.description: str = item["responsibility"]
+            self.employment: str = item["employment"]["name"]
+            self.url: str = item["url"]
 
-            except TypeError:
-                for key, value in self.__dict__.items():
-                    if value is None:
-                        self.__dict__[key] = "не указано"
+            self.all.append(self)
 
-    def __get_vacancy_data(self) -> dict:
+    def __repr__(self) -> str:
+        """
+        Возвращает строковое представление экземпляра класса
+        :return: строка с представлением экземпляра класса
+        :rtype: str
+        """
+        return f"Компания: {self.employer_name}\nПозиция: {self.vacancy_name}, г.{self.area}\n" \
+               f"Зарпалата: от {self.salary_from} до {self.salary_to} руб\n" \
+               f"Требования к соискателю:\n{self.requirement}\n" \
+               f"Опыт работы: {self.experience}\n" \
+               f"Обязанности: {self.description}\n" \
+               f"Тип занятости: {self.employment}\nСсылка на вакансию: {self.url}\n"
+
+    def __str__(self) -> str:
+        """
+        Возвращает строковое представление экземпляра класса
+        :return: строка с представлением экземпляра класса
+        :rtype: str
+        """
+        return f"Компания: {self.employer_name}\nПозиция: {self.vacancy_name}, г.{self.area}\n" \
+               f"Зарпалата: от {self.salary_from} до {self.salary_to} руб\n" \
+               f"Требования к соискателю:\n{self.requirement}\n" \
+               f"Опыт работы: {self.experience}\n" \
+               f"Обязанности: {self.description}\n" \
+               f"Тип занятости: {self.employment}\nСсылка на вакансию: {self.url}\n"
+
+    def __ge__(self, other):
+        return self.salary_from > other.salary_from
+
+    def __get_vacancy_data(self, *args, **kwargs) -> list[dict]:
         """
         Метод получения данных из файла вакансий
         :return: данные из файла вакансий
-        :rtype: dict
+        :rtype: list[dict]
         """
-        SuperJobFileProcessor().save_vacancies_to_file(
-            text=self.text,
-            experience=self.experience,
-            area=self.area,
-            salary=self.salary
-        )
-        vacancy_data: dict = SuperJobFileProcessor().load_vacancies_from_file()
+        SuperJobFileProcessor().save_vacancies_to_file(**kwargs)
+        vacancy_data: list[dict] = SuperJobFileProcessor().load_vacancies_from_file()
         return vacancy_data
 
 

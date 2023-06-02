@@ -1,14 +1,14 @@
 import requests
 
-from base_classes.parser_base_class import BaseApiParser
+from base_classes.parser_base_class import ApiParserABCClass
 
 
-class HeadHunterParser(BaseApiParser):
+class HeadHunterParser(ApiParserABCClass):
     """
     Класс получения данных по API HeadHunter
     """
 
-    def get_vacancies_data(self, **kwargs) -> list[dict]:
+    def get_vacancies_data(self, *args, **kwargs) -> list[dict]:
         """
         Получает отфильтрованные данные по вакансии по API
         :param kwargs: опциональные параметры запроса к API

@@ -1,7 +1,7 @@
-from file_processors.headhunter_file_processor import HeadHunterFileProcessor
+from file_processors.all_vacancies_file_processor import CombinationFileProcessor
 
 
-class HeadHunterVacancy:
+class AllVacancies:
     """
     Класс вакансий с HeadHunter, инициализируется любым из именованных аргументов
     """
@@ -64,12 +64,12 @@ class HeadHunterVacancy:
     def __ge__(self, other):
         return self.salary_from > other.salary_from
 
-    def __get_vacancy_data(self, *args, **kwargs) -> list[dict]:
+    def __get_vacancy_data(self) -> list[dict]:
         """
         Метод получения данных из файла вакансий
         :return: данные из файла вакансий
         :rtype: list[dict]
         """
-        HeadHunterFileProcessor().save_vacancies_to_file(**kwargs)
-        vacancy_data: list[dict] = HeadHunterFileProcessor().load_vacancies_from_file()
+        CombinationFileProcessor().save_vacancies_to_file()
+        vacancy_data: list[dict] = CombinationFileProcessor().load_vacancies_from_file()
         return vacancy_data

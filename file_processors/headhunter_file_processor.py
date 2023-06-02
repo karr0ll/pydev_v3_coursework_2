@@ -1,29 +1,21 @@
 import json
 
-from base_classes.file_interface_base_class import FileInterfaceBaseClass
-
+from base_classes.file_interface_base_class import FileInterfaceABCClass
 from parsers.headhunter_parser import HeadHunterParser
 
 
-class HeadHunterFileProcessor(FileInterfaceBaseClass):
+class HeadHunterFileProcessor(FileInterfaceABCClass):
     """
     Класс для работы с файлами вакансий, полученных через API
     """
 
-    def save_vacancies_to_file(self, **kwargs) -> None:
-        """
-        Сохраняет полученный послемаппинга список словарей с данными вакансий в json-файл
-        :param kwargs: опциональные параметры запроса к API: text, salary, area, experience
-        :type kwargs: text: str, salary: int, area: str, experience: str
-        :return:  None
-        :rtype: None
-        """
-        with open("vacancies_headhunter.json", "w", encoding="UTF-8") as file:
-            data = self.map_json_data(**kwargs)
+    def save_vacancies_to_file(self, *args, **kwargs) -> None:
+        with open("vacancies_hh.json", "w", encoding="UTF-8") as file:
+            data: list = self.map_json_data(**kwargs)
             json.dump(data, file, indent=2, ensure_ascii=False)
 
     @staticmethod
-    def map_json_data(**kwargs) -> list[dict]:
+    def map_json_data(*args, **kwargs) -> list[dict]:
         """
         Маппит полученный от API список словарей с данными вакансий.
         :param kwargs: опциональные параметры запроса к API: text, salary, area, experience
@@ -68,11 +60,11 @@ class HeadHunterFileProcessor(FileInterfaceBaseClass):
         :return: список словарей с данными вакансий
         :rtype: list[dict]
         """
-        with open("vacancies_headhunter.json", "r", encoding="UTF-8") as file:
+        with open("vacancies_hh.json", "r", encoding="UTF-8") as file:
             vacancies_data: list[dict] = json.load(file)
             return vacancies_data
 
-    def delete_vacancy_from_file(self, vacancy_id: str) -> None:
+    def delete_vacancy_from_file(self, *args, **kwargs) -> None:
         """
         Удаляет вакансию из файла по id вакансии
         :param vacancy_id: id вакансии
@@ -80,9 +72,10 @@ class HeadHunterFileProcessor(FileInterfaceBaseClass):
         :return: None
         :rtype: None
         """
+        vacancy_id = kwargs["vacancy_id"]
         data: list[dict] = self.load_vacancies_from_file()
 
-        with open("vacancies_headhunter.json", "w+",
+        with open("vacancies_hh.json", "w+",
                   encoding="UTF-8"
                   ) as file:
 

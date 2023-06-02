@@ -3,17 +3,17 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from base_classes.parser_base_class import BaseApiParser
+from base_classes.parser_base_class import ApiParserABCClass
 
 from datetime import datetime, timedelta
 
 
-class SuperJobParser(BaseApiParser):
+class SuperJobParser(ApiParserABCClass):
     """
     Класс получения данных по API SuperJob
     """
 
-    def get_vacancies_data(self, **kwargs) -> dict:
+    def get_vacancies_data(self, *args, **kwargs) -> dict:
         """
         Получает отфильтрованные данные по вакансии по API
         :param kwargs: опциональные параметры запроса к API: keyword, payment_from, town, experience
