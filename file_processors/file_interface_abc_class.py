@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
 
-class FileInterfaceABCClass(ABC):
+class FileInterfaceABC(ABC):
     """
-    Базовый класс для работы с файлами вакансий
+    Абстрактный класс для работы с файлами вакансий
     """
 
     @abstractmethod
