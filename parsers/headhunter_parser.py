@@ -1,6 +1,6 @@
 import requests
 
-from base_classes.parser_base_class import ApiParserABCClass
+from parsers.parser_abc_class import ApiParserABCClass
 
 
 class HeadHunterParser(ApiParserABCClass):
@@ -11,10 +11,10 @@ class HeadHunterParser(ApiParserABCClass):
     def get_vacancies_data(self, *args, **kwargs) -> list[dict]:
         """
         Получает отфильтрованные данные по вакансии по API
-        :param kwargs: опциональные параметры запроса к API
+        :param kwargs: параметры запроса к API
         :type kwargs: int, str, array
-        :return: Словарь с данными вакансий
-        :rtype: dict
+        :return: Список словарей с данными вакансий
+        :rtype: list[dict]
         """
         params = {
             "per_page": 100,  # указание количества вакансий на страницу
@@ -47,7 +47,7 @@ class HeadHunterParser(ApiParserABCClass):
     def get_additional_dicts(self) -> dict:
         """
         Получает справочник дополнительных параметров запросов к API
-        :return: словарь с дополнительными параметрами для запросов к API
+        :return: словарь со справочником дополнительных параметров для запросов к API
         :rtype: dict
         """
         response = requests.get("https://api.hh.ru/dictionaries")
@@ -59,7 +59,7 @@ class HeadHunterParser(ApiParserABCClass):
     def get_area_dicts(self) -> dict:
         """
         Получает справочник городов для запроса к API
-        :return: словарь с справочником городов для запросов к API
+        :return: словарь со справочником городов для запросов к API
         :rtype: dict
         """
         response = requests.get("https://api.hh.ru/areas/113")
