@@ -9,29 +9,35 @@ from vacancies.superjob_vacancy import SuperJobVacancy
 
 def interact_with_user():
     # этап выбора сервиса поиска работы
-    api_service_index = int(
-        input(
-            "Здравствуйте, вводом номера выберите сервис поиска вакансий:\n "
-            "1. HeadHunter 2.SuperJob 3.Оба сервиса\n"
-        )
-    )
+    print("Здравствуйте, вводом номера выберите сервис поиска вакансий:\n"
+          "1. HeadHunter 2.SuperJob 3.Оба сервиса\n")
+    api_service_index = int(input())
     while api_service_index not in range(1, 4) or not isinstance(api_service_index, int):
         print("Необходимо ввести номер опции (1/2/3)")
         api_service_index = int(input())
 
     print("Введите параметры поиска (ключевое слово для поиска, опыт работы, зарплату, город):")
     search_keyword = input("Ключевое слово: ")
+
     search_salary = int(input("Зарплата: "))
+    while not isinstance(search_salary, int):
+        print("Зарплата должна быть целым числом")
+        search_salary = int(input())
 
     # этап выбора искомого опыта работы
-
-    experience_index_input = int(input("1. Нет опыта / 2. От 1 года до 3 лет / 3. От 3 до 6 лет / 4. Более 6 лет\n"))
+    print("1. Нет опыта / 2. От 1 года до 3 лет / 3. От 3 до 6 лет / 4. Более 6 лет\n")
+    experience_index_input = int(input())
     while experience_index_input not in range(1, 5) or not isinstance(experience_index_input, int):
         print("Необходимо ввести номер опции")
         experience_index_input = int(input())
 
     search_city = input("Город: ").capitalize()
+
     top_chart_size = int(input("Введите количество вакансий в топе для отображения:\n"))
+    while not isinstance(top_chart_size, int):
+        print("Необходимо ввести количество вакансий")
+        top_chart_size = int(input())
+
 
     #  получение списка id опыта работы по введенному индексу
     search_experience_list: list = get_search_experience_id(experience_index_input)
