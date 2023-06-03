@@ -3,9 +3,10 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from base_classes.parser_base_class import ApiParserABCClass
 
 from datetime import datetime, timedelta
+
+from parsers.parser_abc_class import ApiParserABCClass
 
 
 class SuperJobParser(ApiParserABCClass):
@@ -15,8 +16,8 @@ class SuperJobParser(ApiParserABCClass):
 
     def get_vacancies_data(self, *args, **kwargs) -> dict:
         """
-        Получает отфильтрованные данные по вакансии по API
-        :param kwargs: опциональные параметры запроса к API: keyword, payment_from, town, experience
+        Получает отфильтрованные данные вакансий по API
+        :param kwargs: параметры запроса к API: keyword, payment_from, town, experience
         :type kwargs: keyword: str, payment_from: int, area: int, experience: str
         :return: Словарь с данными вакансий
         :rtype: dict
