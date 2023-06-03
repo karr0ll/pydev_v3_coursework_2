@@ -9,13 +9,13 @@ class HeadHunterFileProcessor(FileProcessorBaseClass):
     """
     Класс для работы с файлами вакансий, полученных через API
     """
-    def save_vacancies_to_file(self, *args: str, **kwargs: str) -> None:
+    def save_vacancies_to_file(self, *args, **kwargs) -> None:
         """
         Переопределяет метод базового класса. Сохраняет данные вакансии в файл
         :param args: имя файла для сохранения данных
         :type args: str
-        :param kwargs: имя файла для сохранения данных
-        :type kwargs: str
+        :param kwargs: имя файла для сохранения данных, параметры поискового запроса
+        :type kwargs: str, int
         :return: None
         :rtype: None
         """
