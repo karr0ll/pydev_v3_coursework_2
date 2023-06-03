@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class ApiParserABCClass(ABC):
     """
-    Базовый класс получения данных по API
+    Абстрактный класс получения данных по API
     """
 
     @abstractmethod
