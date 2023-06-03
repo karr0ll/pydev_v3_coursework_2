@@ -8,8 +8,12 @@ class VacancyBaseClass:
 
     def __init__(self, *args, **kwargs) -> None:
         """
-        Конструктор класса, инициализируется, инициализируется именованными аргументами,
+        Конструктор класса, инициализируется именованными аргументами,
         получаемыми из файла вакансий
+        :param args: значения словаря с данными вакансий
+        :type args: int, str
+        :param kwargs: значения словаря с данными вакансий
+        :type kwargs: int, str
         """
         self.employer_name: str = kwargs["employer_name"]
         self.area: str = kwargs["area"]
@@ -34,6 +38,20 @@ class VacancyBaseClass:
         self.url: str = kwargs["url"]
 
     def __repr__(self) -> str:
+        """
+        Возвращает строковое представление экземпляра класса
+        :return: строка с представлением экземпляра класса
+        :rtype: str
+        """
+        return f"Компания: {self.employer_name}\nПозиция: {self.vacancy_name}, г.{self.area}\n" \
+               f"Зарпалата: от {self.salary_from} до {self.salary_to} руб\n" \
+               f"Требования к соискателю: {self.requirement}\n" \
+               f"Опыт работы: {self.experience}\n" \
+               f"Обязанности: {self.description}\n" \
+               f"Тип занятости: {self.employment}\nСсылка на вакансию: {self.url}\n" \
+               f""
+
+    def __str__(self) -> str:
         """
         Возвращает строковое представление экземпляра класса
         :return: строка с представлением экземпляра класса

@@ -1,8 +1,10 @@
+from file_processors.all_vacancies_file_processor import AllVacanciesFileProcessor
+from file_processors.headhunter_file_processor import HeadHunterFileProcessor
+from file_processors.superjob_file_processor import SuperJobFileProcessor
 from utils import get_search_experience_id, get_city_id
 from vacancies.all_vacancies import AllVacancies
 from vacancies.headhunter_vacancy import HeadHunterVacancy
 from vacancies.superjob_vacancy import SuperJobVacancy
-
 
 
 def interact_with_user():
@@ -29,54 +31,130 @@ def interact_with_user():
         experience_index_input = int(input())
 
     search_city = input("Город: ").capitalize()
+    top_chart_size = int(input("Введите количество вакансий в топе для отображения:\n"))
+
+    #  получение списка id опыта работы по введенному индексу
+    search_experience_list: list = get_search_experience_id(experience_index_input)
+
+    #  получение id города из ввода пользователя
+    city_data_list: list = get_city_id(search_city)
 
     if api_service_index == 1:
-        #  получение id опыта работы по введенному индексу
-        search_experience = get_search_experience_id(experience_index_input, api_service_index)
-
-        #  получение id города из ввода пользователя
-        city_id = get_city_id(api_service_index, search_city)
-        vacancies = HeadHunterVacancy(
+        HeadHunterFileProcessor().save_vacancies_to_file(
+            filename="vacancies_hh.json",
             text=search_keyword,
-            experience=search_experience,
-            area=city_id,
+            experience=search_experience_list[0],
+            area=city_data_list[0],
             salary=search_salary
         )
+        vacancies: list[dict] = HeadHunterFileProcessor().load_vacancies_from_file(filename="vacancies_hh.json")
 
-    if api_service_index == 2:
-        #  получение id опыта работы по введенному индексу
-        search_experience = get_search_experience_id(experience_index_input, api_service_index)
+        all_hh_vacancies: list[HeadHunterVacancy] = [
+            HeadHunterVacancy(
+                employer_name=item["employer"],
+                area=item["city"]["name"],
+                vacancy_name=item["name"],
+                salary_from=item["salary_from"],
+                salary_to=item["salary_to"],
+                requirement=item["requirement"],
+                experience=item["experience"]["name"],
+                description=item["responsibility"],
+                employment=item["employment"]["name"],
+                url=item["url"]
+            ) for item in vacancies]
 
-        #  получение id города из ввода пользователя
-        city_id = get_city_id(api_service_index, search_city)
+        sorted_vacancies: list[HeadHunterVacancy] = sorted(
+            all_hh_vacancies,
+            key=lambda cls_object: cls_object.salary_from,
+            reverse=True
+        )
 
-        vacancies = SuperJobVacancy(
+    elif api_service_index == 2:
+        SuperJobFileProcessor().save_vacancies_to_file(
+            filename="vacancies_sj.json",
             keyword=search_keyword,
-            experience=search_experience,
-            town=city_id,
-            payment_from=search_salary)
+            experience=search_experience_list[1],
+            town=city_data_list[1],
+            payment_from=search_salary
+        )
 
-    if api_service_index == 3:
-        search_experience_list = get_search_experience_id(experience_index_input, api_service_index)
+        vacancies: list[dict] = SuperJobFileProcessor().load_vacancies_from_file(filename="vacancies_sj.json")
+        all_sj_vacancies: list[SuperJobVacancy] = [
+            SuperJobVacancy(
+                employer_name=item["employer"],
+                area=item["city"]["name"],
+                vacancy_name=item["name"],
+                salary_from=item["salary_from"],
+                salary_to=item["salary_to"],
+                requirement=item["requirement"],
+                experience=item["experience"]["name"],
+                description=item["responsibility"],
+                employment=item["employment"]["name"],
+                url=item["url"]
+            ) for item in vacancies
+        ]
+
+        sorted_vacancies: list[SuperJobVacancy] = sorted(
+            all_sj_vacancies,
+            key=lambda cls_object: cls_object.salary_from,
+            reverse=True
+        )
+
+    else:
         search_experience_hh = search_experience_list[0]
-        city_data_list = get_city_id(api_service_index, search_city)
         city_id_hh = city_data_list[0]
-        vacancies = HeadHunterVacancy(
+
+        HeadHunterFileProcessor().save_vacancies_to_file(
+            filename="vacancies_hh.json",
             text=search_keyword,
             experience=search_experience_hh,
             area=city_id_hh,
             salary=search_salary
         )
+
         search_experience_sj = search_experience_list[1]
         city_id_sj = city_data_list[1]
 
-        vacancies = SuperJobVacancy(
+        SuperJobFileProcessor().save_vacancies_to_file(
+            filename="vacancies_sj.json",
             keyword=search_keyword,
             experience=search_experience_sj,
             town=city_id_sj,
-            payment_from=search_salary)
+            payment_from=search_salary
+        )
 
-        all_vacancies = AllVacancies()
+        AllVacanciesFileProcessor().save_vacancies_to_file(
+            filename="vacancies_all.json",
+            hh_filename="vacancies_hh.json",
+            sj_filename="vacancies_sj.json"
+        )
+        vacancies: list[dict] = AllVacanciesFileProcessor().load_vacancies_from_file(
+            filename="vacancies_all.json"
+        )
+
+        all_vacancies: list[AllVacancies] = [
+            AllVacancies(
+                service=item["service"],
+                employer_name=item["employer"],
+                area=item["city"]["name"],
+                vacancy_name=item["name"],
+                salary_from=item["salary_from"],
+                salary_to=item["salary_to"],
+                requirement=item["requirement"],
+                experience=item["experience"]["name"],
+                description=item["responsibility"],
+                employment=item["employment"]["name"],
+                url=item["url"]
+            ) for item in vacancies
+        ]
+        sorted_vacancies: list[AllVacancies] = sorted(
+            all_vacancies,
+            key=lambda cls_object: cls_object.salary_from,
+            reverse=True
+        )
+    print(f"Топ-{top_chart_size} вакансий по начальной зарплате:\n")
+    for vacancy in sorted_vacancies[0:top_chart_size]:
+        print(vacancy)
 
 
 if __name__ == "__main__":
