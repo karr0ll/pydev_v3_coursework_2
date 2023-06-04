@@ -11,7 +11,11 @@ class FileProcessorBaseClass(FileInterfaceABC):
     def save_vacancies_to_file(self, *args, **kwargs) -> None:
         pass
 
-    def load_vacancies_from_file(self, *args: str, **kwargs: str) -> list[dict]:
+    def load_vacancies_from_file(
+            self,
+            *args: str,
+            **kwargs: str
+    ) -> list[dict]:
         """
         Метод загрузки данных вакансий из файла
         :param args: имя файла для сохранения

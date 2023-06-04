@@ -1,6 +1,3 @@
-from file_processors.headhunter_file_processor import HeadHunterFileProcessor
-
-
 class VacancyBaseClass:
     """
     Базовый класс вакансий
@@ -43,12 +40,14 @@ class VacancyBaseClass:
         :return: строка с представлением экземпляра класса
         :rtype: str
         """
-        return f"Компания: {self.employer_name}\nПозиция: {self.vacancy_name}, г.{self.area}\n" \
+        return f"Компания: {self.employer_name}\n" \
+               f"Позиция: {self.vacancy_name}, г.{self.area}\n" \
                f"Зарпалата: от {self.salary_from} до {self.salary_to} руб\n" \
                f"Требования к соискателю: {self.requirement}\n" \
                f"Опыт работы: {self.experience}\n" \
                f"Обязанности: {self.description}\n" \
-               f"Тип занятости: {self.employment}\nСсылка на вакансию: {self.url}\n" \
+               f"Тип занятости: {self.employment}\n" \
+               f"Ссылка на вакансию: {self.url}\n" \
                f""
 
     def __str__(self) -> str:
@@ -57,10 +56,12 @@ class VacancyBaseClass:
         :return: строка с представлением экземпляра класса
         :rtype: str
         """
-        return f"Компания: {self.employer_name}\nПозиция: {self.vacancy_name}, г.{self.area}\n" \
+        return f"Компания: {self.employer_name}\n" \
+               f"Позиция: {self.vacancy_name}, г.{self.area}\n" \
                f"Зарпалата: от {self.salary_from} до {self.salary_to} руб\n" \
                f"Требования к соискателю: {self.requirement}\n" \
                f"Опыт работы: {self.experience}\n" \
                f"Обязанности: {self.description}\n" \
-               f"Тип занятости: {self.employment}\nСсылка на вакансию: {self.url}\n" \
+               f"Тип занятости: {self.employment}\n" \
+               f"Ссылка на вакансию: {self.url}\n" \
                f""

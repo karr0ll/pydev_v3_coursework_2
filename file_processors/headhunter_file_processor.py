@@ -14,13 +14,16 @@ class HeadHunterFileProcessor(FileProcessorBaseClass):
         Переопределяет метод базового класса. Сохраняет данные вакансии в файл
         :param args: имя файла для сохранения данных
         :type args: str
-        :param kwargs: имя файла для сохранения данных, параметры поискового запроса
+        :param kwargs: имя файла для сохранения данных,
+        параметры поискового запроса
         :type kwargs: str, int
         :return: None
         :rtype: None
         """
         filename: str = kwargs["filename"]
         data: list[dict] = HeadHunterParser().get_vacancies_data(**kwargs)
-        mapped_data: list[dict] = JSONMapper().map_hh_json_data(data)  # получение данных после маппинга полей
+
+        # получение данных после маппинга полей
+        mapped_data: list[dict] = JSONMapper().map_hh_json_data(data)
         with open(filename, "w", encoding="UTF-8") as file:
             json.dump(mapped_data, file, indent=2, ensure_ascii=False)

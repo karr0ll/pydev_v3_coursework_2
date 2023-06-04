@@ -21,7 +21,10 @@ def interact_with_user():
         except ValueError:
             print("Необходимо ввести номер опции (1/2/3)")
 
-    print("Введите параметры поиска (ключевое слово для поиска, опыт работы, зарплату, город):")
+    print(
+        "Введите параметры поиска "
+        "(ключевое слово для поиска, опыт работы, зарплату, город):"
+        )
     search_keyword = input("Ключевое слово: ")
     while True:
         try:
@@ -31,7 +34,10 @@ def interact_with_user():
             print("Зарплата должна быть целым числом")
 
     # этап выбора искомого опыта работы
-    print("1. Нет опыта / 2. От 1 года до 3 лет / 3. От 3 до 6 лет / 4. Более 6 лет\n")
+    print(
+        "1. Нет опыта / 2. От 1 года до 3 лет / "
+        "3. От 3 до 6 лет / 4. Более 6 лет\n"
+    )
     while True:
         try:
             experience_index_input = int(input())
@@ -45,13 +51,19 @@ def interact_with_user():
 
     while True:
         try:
-            top_chart_size = int(input("Введите количество вакансий в топе для отображения:\n"))
+            top_chart_size = int(
+                input(
+                    "Введите количество вакансий в топе для отображения:\n"
+                )
+            )
             break
         except ValueError:
             print("Необходимо ввести количество вакансий")
 
     #  получение списка id опыта работы по введенному индексу
-    search_experience_list: list = get_search_experience_id(experience_index_input)
+    search_experience_list: list = get_search_experience_id(
+        experience_index_input
+    )
 
     #  получение id города из ввода пользователя
     city_data_list: list = get_city_id(search_city)
@@ -64,7 +76,9 @@ def interact_with_user():
             area=city_data_list[0],
             salary=search_salary
         )
-        vacancies: list[dict] = HeadHunterFileProcessor().load_vacancies_from_file(filename="vacancies_hh.json")
+        vacancies: list[dict] = HeadHunterFileProcessor().load_vacancies_from_file(
+            filename="vacancies_hh.json"
+        )
 
         all_hh_vacancies: list[HeadHunterVacancy] = [
             HeadHunterVacancy(
@@ -95,7 +109,9 @@ def interact_with_user():
             payment_from=search_salary
         )
 
-        vacancies: list[dict] = SuperJobFileProcessor().load_vacancies_from_file(filename="vacancies_sj.json")
+        vacancies: list[dict] = SuperJobFileProcessor().load_vacancies_from_file(
+            filename="vacancies_sj.json"
+        )
         all_sj_vacancies: list[SuperJobVacancy] = [
             SuperJobVacancy(
                 employer_name=item["employer"],

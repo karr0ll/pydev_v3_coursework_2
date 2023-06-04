@@ -20,9 +20,10 @@ class HeadHunterParser(ApiParserABCClass):
             "per_page": 100,  # указание количества вакансий на страницу
             "page": 0,  # запрос начинается с нулевой страницы
             "period": 30,  # период размещения вакансий от текущей даты
-            "only_with_salary": True,  #  возвращать вакансии только с зарплатой
-            "area": 113,  #  страна поиска Россия
-            "search_field": "name"  #  в какой обаласти вакансии искать ключевое слово
+            "only_with_salary": True,  # возвращать вакансии только с зарплатой
+            "area": 113,  # страна поиска Россия
+            "search_field": "name"  # в какой обаласти вакансии
+                                    # искать ключевое слово
         }
 
         #  распаковка аргументов и подставновка в параметры запроса
@@ -40,14 +41,17 @@ class HeadHunterParser(ApiParserABCClass):
         # обновление номера страницы в запросе к API
         for page in range(1, pages):
             params["page"] = page
-            response = requests.get("https://api.hh.ru/vacancies", params=params)
+            response = requests.get("https://api.hh.ru/vacancies",
+                                    params=params
+                                    )
             vacancies_description.extend(response.json()["items"])
         return vacancies_description
 
     def get_additional_dicts(self) -> dict:
         """
         Получает справочник дополнительных параметров запросов к API
-        :return: словарь со справочником дополнительных параметров для запросов к API
+        :return: словарь со справочником дополнительных параметров
+        для запросов к API
         :rtype: dict
         """
         response = requests.get("https://api.hh.ru/dictionaries")
