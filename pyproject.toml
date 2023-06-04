@@ -10,8 +10,10 @@ packages = [{include = "pydev_v3_coursework_2"}]
 python = "^3.11"
 requests = "^2.30.0"
 python-dotenv = "^1.0.0"
-flake8 = "^6.0.0"
 
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]

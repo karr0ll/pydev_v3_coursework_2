@@ -4,8 +4,10 @@ from parsers.superjob_parser import SuperJobParser
 
 def get_search_experience_id(experience_index_input: int) -> list:
     """
-    Вспомогательная функция получения id выбранного параметра опыта из справочников API
-    :param experience_index_input: индекс строчного элемента списка возможных вариантов опыта,
+    Вспомогательная функция получения id
+    выбранного параметра опыта из справочников API
+    :param experience_index_input:
+    индекс строчного элемента списка возможных вариантов опыта,
     соотв. пользовательскому вводу
     :type experience_index_input: int
     :return: строка или список строк
@@ -38,7 +40,9 @@ def get_city_id(search_city: str) -> list:
     cities_list = []
     hh_areas_list: dict = HeadHunterParser().get_area_dicts()["areas"]
     for area in hh_areas_list:
-        if search_city in area["name"]:  # проверка наличия города вне региона (напр. Москва)
+
+        # проверка наличия города вне региона (напр. Москва)
+        if search_city in area["name"]:
             cities_list.append(str(area["id"]))
         else:
             for city in area["areas"]:  # спуск до городов внутри регионов

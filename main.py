@@ -11,36 +11,59 @@ def interact_with_user():
     # этап выбора сервиса поиска работы
     print("Здравствуйте, вводом номера выберите сервис поиска вакансий:\n"
           "1. HeadHunter 2.SuperJob 3.Оба сервиса\n")
-    api_service_index = int(input())
-    while api_service_index not in range(1, 4) or not isinstance(api_service_index, int):
-        print("Необходимо ввести номер опции (1/2/3)")
-        api_service_index = int(input())
+    while True:
+        try:
+            api_service_index = int(input())
+            while api_service_index not in range(1, 4):
+                print("Необходимо ввести номер опции (1/2/3)")
+                api_service_index = int(input())
+            break
+        except ValueError:
+            print("Необходимо ввести номер опции (1/2/3)")
 
-    print("Введите параметры поиска (ключевое слово для поиска, опыт работы, зарплату, город):")
+    print(
+        "Введите параметры поиска "
+        "(ключевое слово для поиска, опыт работы, зарплату, город):"
+        )
     search_keyword = input("Ключевое слово: ")
-
-    search_salary = int(input("Зарплата: "))
-    while not isinstance(search_salary, int):
-        print("Зарплата должна быть целым числом")
-        search_salary = int(input())
+    while True:
+        try:
+            search_salary = int(input("Зарплата: "))
+            break
+        except ValueError:
+            print("Зарплата должна быть целым числом")
 
     # этап выбора искомого опыта работы
-    print("1. Нет опыта / 2. От 1 года до 3 лет / 3. От 3 до 6 лет / 4. Более 6 лет\n")
-    experience_index_input = int(input())
-    while experience_index_input not in range(1, 5) or not isinstance(experience_index_input, int):
-        print("Необходимо ввести номер опции")
-        experience_index_input = int(input())
+    print(
+        "1. Нет опыта / 2. От 1 года до 3 лет / "
+        "3. От 3 до 6 лет / 4. Более 6 лет\n"
+    )
+    while True:
+        try:
+            experience_index_input = int(input())
+            while experience_index_input not in range(1, 5):
+                print("Необходимо ввести номер опции")
+            break
+        except ValueError:
+            print("Необходимо ввести номер опции")
 
     search_city = input("Город: ").capitalize()
 
-    top_chart_size = int(input("Введите количество вакансий в топе для отображения:\n"))
-    while not isinstance(top_chart_size, int):
-        print("Необходимо ввести количество вакансий")
-        top_chart_size = int(input())
-
+    while True:
+        try:
+            top_chart_size = int(
+                input(
+                    "Введите количество вакансий в топе для отображения:\n"
+                )
+            )
+            break
+        except ValueError:
+            print("Необходимо ввести количество вакансий")
 
     #  получение списка id опыта работы по введенному индексу
-    search_experience_list: list = get_search_experience_id(experience_index_input)
+    search_experience_list: list = get_search_experience_id(
+        experience_index_input
+    )
 
     #  получение id города из ввода пользователя
     city_data_list: list = get_city_id(search_city)
@@ -53,7 +76,9 @@ def interact_with_user():
             area=city_data_list[0],
             salary=search_salary
         )
-        vacancies: list[dict] = HeadHunterFileProcessor().load_vacancies_from_file(filename="vacancies_hh.json")
+        vacancies: list[dict] = HeadHunterFileProcessor().load_vacancies_from_file(
+            filename="vacancies_hh.json"
+        )
 
         all_hh_vacancies: list[HeadHunterVacancy] = [
             HeadHunterVacancy(
@@ -84,7 +109,9 @@ def interact_with_user():
             payment_from=search_salary
         )
 
-        vacancies: list[dict] = SuperJobFileProcessor().load_vacancies_from_file(filename="vacancies_sj.json")
+        vacancies: list[dict] = SuperJobFileProcessor().load_vacancies_from_file(
+            filename="vacancies_sj.json"
+        )
         all_sj_vacancies: list[SuperJobVacancy] = [
             SuperJobVacancy(
                 employer_name=item["employer"],

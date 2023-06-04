@@ -12,6 +12,3 @@ class ApiParserABCClass(ABC):
         Абстрактный метод получения данных по API
         """
         pass
-
-
-
